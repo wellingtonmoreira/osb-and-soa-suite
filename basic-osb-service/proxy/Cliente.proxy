@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://www.bea.com/wli/config/env" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isAutoPublish="false">
+    <ser:description/>
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:wsdl ref="basic-osb-service/wsdl/Cliente"/>
+      <con:port>
+        <con:name>ClienteSOAP</con:name>
+        <con:namespace>http://cookbook.sciensa.com/Cliente/</con:namespace>
+      </con:port>
+      <con:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/basic-osb-service/proxy/ClienteProxy</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="HandleUnsupportedOperation_request">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con3:Error>
+            <con2:id>_ActionId-4272706897439791785--4542d836.152033f9e1e.-7fd3</con2:id>
+            <con3:errCode>500</con3:errCode>
+            <con3:message>Unsupported operation</con3:message>
+          </con3:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="HandleUnsupportedOperation_response"/>
+    <con:pipeline type="request" name="AtualizarPipelinePair_request">
+      <con:stage name="StageAtualizarRequest">
+        <con:context>
+          <con2:varNsDecl namespace="http://www.example.org/cadastrar/" prefix="cad"/>
+        </con:context>
+        <con:actions>
+          <con3:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-4100805725405244867--76b3c13c.1520c557648.-7f6e</con2:id>
+            <con3:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="basic-osb-service/transformation/TransformAtualizarClienteRequest"/>
+                <con2:param name="atualizarRequest">
+                  <con2:path>$body/cad:Atualizar</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:replace>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="AtualizarPipelinePair_response">
+      <con:stage name="StageAtualizarResponse">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.example.org/cadastrar/" prefix="cad"/>
+        </con:context>
+        <con:actions>
+          <con3:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-4100805725405244867--76b3c13c.1520c557648.-7eb7</con2:id>
+            <con3:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="basic-osb-service/transformation/TransformAtualizarClienteResponse"/>
+                <con2:param name="atualizarLegadoResponse">
+                  <con2:path>$body/cad:AtualizarLegadoResponse</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:replace>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="request" name="CadastrarPipelinePair_request">
+      <con:stage name="StageCadastrarRequest">
+        <con:context>
+          <con2:varNsDecl namespace="http://www.example.org/cadastrar/" prefix="cad"/>
+        </con:context>
+        <con:actions>
+          <con3:replace contents-only="true" varName="body">
+            <con2:id>_ActionId-4100805725405244867--76b3c13c.1520c557648.-7e94</con2:id>
+            <con3:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="basic-osb-service/transformation/TransformCadastrarClienteRequest"/>
+                <con2:param name="cadastrarRequest">
+                  <con2:path>$body/cad:Cadastrar</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:replace>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="CadastrarPipelinePair_response"/>
+    <con:flow>
+      <con:branch-node type="operation" name="Operations">
+        <con:context/>
+        <con:branch-table>
+          <con:branch name="Atualizar">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="AtualizarPipelinePair">
+                <con:request>AtualizarPipelinePair_request</con:request>
+                <con:response>AtualizarPipelinePair_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="AtualizarRoute">
+                <con:context>
+                  <con2:varNsDecl namespace="http://www.example.org/cadastrar/" prefix="cad"/>
+                </con:context>
+                <con:actions>
+                  <con1:route>
+                    <con2:id>_ActionId-4272706897439791785--4542d836.152033f9e1e.-7f5c</con2:id>
+                    <con1:service ref="basic-osb-service/business/ClienteService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con1:operation>Atualizar</con1:operation>
+                    <con1:outboundTransform></con1:outboundTransform>
+                    <con1:responseTransform/>
+                  </con1:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="Cadastrar">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="CadastrarPipelinePair">
+                <con:request>CadastrarPipelinePair_request</con:request>
+                <con:response>CadastrarPipelinePair_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="CadastrarRoute">
+                <con:context/>
+                <con:actions>
+                  <con1:route>
+                    <con2:id>_ActionId-3393825693043698814-5b7447a8.151e9df0bf3.-7fa0</con2:id>
+                    <con1:service ref="basic-osb-service/business/JMSClienteService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con1:outboundTransform/>
+                    <con1:responseTransform/>
+                  </con1:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:default-branch>
+            <con:flow>
+              <con:pipeline-node name="HandleUnsupportedOperation">
+                <con:request>HandleUnsupportedOperation_request</con:request>
+                <con:response>HandleUnsupportedOperation_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:default-branch>
+        </con:branch-table>
+      </con:branch-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

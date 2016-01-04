@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/cadastrar/" targetNamespace="http://www.example.org/cadastrar/">
+    <element name="CadastrarLegado" type="tns:CadastrarLegado"></element>
+    
+    <complexType name="CadastrarLegado">
+    	<sequence>
+    		<element name="NOMELEGADO" type="string"></element>
+    		<element name="SOBRENOMELEGADO" type="string"></element>
+    		<element name="DATANASCLEGADO" type="date"></element>
+    		<element name="ENDERECOLEGADO" type="string"></element>
+    		<element name="EMAILLEGADO" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="CadastrarLegadoResponse" type="tns:CadastrarLegadoResponse"></element>
+    
+    <complexType name="CadastrarLegadoResponse">
+    	<sequence>
+    		<element name="IDLEGADO" type="int"></element>
+    	</sequence>
+    </complexType>
+
+
+    <element name="AtualizarLegado" type="tns:AtualizarLegado"></element>
+
+    <complexType name="AtualizarLegado">
+    	<sequence>
+    		<element name="NOMELEGADO" type="string"></element>
+    		<element name="SOBRENOMELEGADO" type="string"></element>
+    		<element name="DATANASCLEGADO" type="date"></element>
+    		<element name="ENDERECOLEGADO" type="string"></element>
+    		<element name="EMAILLEGADO" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="AtualizarLegadoResponse" type="tns:AtualizarLegadoResponse"></element>
+
+    <complexType name="AtualizarLegadoResponse">
+    	<sequence>
+    		<element name="MENSAGEMRETORNOLEGADO" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>

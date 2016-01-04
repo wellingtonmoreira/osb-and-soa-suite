@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/cadastrar/" targetNamespace="http://www.example.org/cadastrar/">
+    <element name="Cadastrar" type="tns:Cadastrar"></element>
+    
+    <complexType name="Cadastrar">
+    	<sequence>
+    		<element name="nome" type="string"></element>
+    		<element name="sobrenome" type="string"></element>
+    		<element name="dataNascimento" type="date"></element>
+    		<element name="endereco" type="string"></element>
+    		<element name="email" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="CadastrarResponse" type="tns:CadastrarResponse"></element>
+    
+    <complexType name="CadastrarResponse">
+    	<sequence>
+    		<element name="id" type="int"></element>
+    	</sequence>
+    </complexType>
+
+
+    <element name="Atualizar" type="tns:Atualizar"></element>
+
+    <complexType name="Atualizar">
+    	<sequence>
+    		<element name="nome" type="string"></element>
+    		<element name="sobrenome" type="string"></element>
+    		<element name="dataNascimento" type="date"></element>
+    		<element name="endereco" type="string"></element>
+    		<element name="email" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="AtualizarResponse" type="tns:AtualizarResponse"></element>
+
+    <complexType name="AtualizarResponse">
+    	<sequence>
+    		<element name="message" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>
